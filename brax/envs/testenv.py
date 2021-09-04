@@ -161,8 +161,8 @@ joints {
     x: -0.25
   }
   angle_limit {
-      min: -80
-      max: 80
+      min: -60
+      max: 60
   }
   rotation { x: 90 }
   limit_strength: 0.0
