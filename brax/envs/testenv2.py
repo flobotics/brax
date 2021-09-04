@@ -45,6 +45,7 @@ class SkeletonEnv(env.Env):
     reward_dist = -jnp.linalg.norm(obs[-3:])
     reward_ctrl = -jnp.square(action).sum()
     reward = reward_dist + reward_ctrl
+    reward = reward_dist
 
     steps = state.steps + self.action_repeat
     done = jnp.where(steps >= self.episode_length, 1.0, 0.0)
