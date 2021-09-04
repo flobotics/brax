@@ -112,7 +112,7 @@ bodies {
   colliders {
     capsule {
       radius: 0.2
-      length: 0.8
+      length: 1.8
     }
   }
   inertia {
