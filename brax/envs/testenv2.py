@@ -23,6 +23,7 @@ class SkeletonEnv(env.Env):
     self.arm_idx = self.sys.body_idx['box_1']
     
     self.target_radius = 1.0
+    self.target_distance = 3
 
   def reset(self, rng: jnp.ndarray) -> env.State:
     qp = self.sys.default_qp()
@@ -90,12 +91,22 @@ class SkeletonEnv(env.Env):
 
   def _random_target(self, rng: jnp.ndarray) -> Tuple[jnp.ndarray, jnp.ndarray]:
     """Returns a target location in a random circle slightly above xy plane."""
+    # rng, rng1, rng2 = jax.random.split(rng, 3)
+    # dist = .2 * jax.random.uniform(rng1)
+    # ang = jnp.pi * 2. * jax.random.uniform(rng2)
+    # target_x = 4.0 + dist * jnp.cos(ang)
+    # target_y = dist * jnp.sin(ang)
+    # target_z = 0.51
+    # target = jnp.array([target_x, target_y, target_z]).transpose()
+    # return rng, target
+
+    """Returns a target location in a random circle on xz plane."""
     rng, rng1, rng2 = jax.random.split(rng, 3)
-    dist = .2 * jax.random.uniform(rng1)
+    dist = self.target_radius + self.target_distance * jax.random.uniform(rng1)
     ang = jnp.pi * 2. * jax.random.uniform(rng2)
-    target_x = 4.0 + dist * jnp.cos(ang)
+    target_x = dist * jnp.cos(ang)
     target_y = dist * jnp.sin(ang)
-    target_z = 0.51
+    target_z = 1.0
     target = jnp.array([target_x, target_y, target_z]).transpose()
     return rng, target
 
