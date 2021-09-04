@@ -22,8 +22,8 @@ class SkeletonEnv(env.Env):
     self.target_idx = self.sys.body_idx['target']
     self.arm_idx = self.sys.body_idx['box_1']
     
-    self.target_radius = 1.0
-    self.target_distance = 3
+    self.target_radius = 0.1
+    self.target_distance = 6
 
   def reset(self, rng: jnp.ndarray) -> env.State:
     qp = self.sys.default_qp()
