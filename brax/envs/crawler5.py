@@ -436,6 +436,40 @@ collide_include {
   second: "Ground"
 }
 
+collide_include {
+  first: "block"
+  second: "body"
+}
+collide_include {
+  first: "block"
+  second: "servo_0"
+}
+collide_include {
+  first: "block"
+  second: "servo_1"
+}
+collide_include {
+  first: "block"
+  second: "body_1
+}
+
+collide_include {
+  first: "block"
+  second: "body"
+}
+collide_include {
+  first: "block"
+  second: "servo_0"
+}
+collide_include {
+  first: "block"
+  second: "servo_1"
+}
+collide_include {
+  first: "block"
+  second: "body_1
+}
+
 baumgarte_erp: 0.1
 friction: 0.6
 gravity { z: -9.81 }
