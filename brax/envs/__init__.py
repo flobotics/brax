@@ -46,7 +46,7 @@ _envs = {
     'ur5e': ur5e.Ur5e,
     'testenv': testenv.SkeletonEnv,
     'testenv2': testenv2.SkeletonEnv,
-    'crawler5': crawler.SkeletonEnv,
+    'crawler5': crawler5.SkeletonEnv,
 }
 
 State = env.State
