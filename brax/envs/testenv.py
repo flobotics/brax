@@ -10,7 +10,6 @@ from brax.physics.base import take
 
 from google.protobuf import text_format
 
-from brax.tests import debug_outputs
 
 
 
