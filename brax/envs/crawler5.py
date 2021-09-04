@@ -26,7 +26,6 @@ import brax
 from brax.envs import env
 from brax.physics import math
 from brax.physics.base import take
-from brax.tests import debug_outputs
 
 from google.protobuf import text_format
 
