@@ -450,7 +450,7 @@ collide_include {
 }
 collide_include {
   first: "block"
-  second: "body_1
+  second: "body_1"
 }
 
 collide_include {
@@ -467,7 +467,7 @@ collide_include {
 }
 collide_include {
   first: "block"
-  second: "body_1
+  second: "body_1"
 }
 
 baumgarte_erp: 0.1
