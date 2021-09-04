@@ -161,8 +161,8 @@ joints {
     x: -0.25
   }
   angle_limit {
-      min: -60
-      max: 60
+      min: -80
+      max: 80
   }
   rotation { x: 90 }
   limit_strength: 0.0
@@ -173,7 +173,7 @@ joints {
 actuators {
   name: "joint0"
   joint: "joint0"
-  strength: 50.0
+  strength: 80.0
   torque {
   }
 }
