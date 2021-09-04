@@ -32,6 +32,7 @@ from brax.envs import ur5e
 from brax.envs import wrappers
 from brax.envs import testenv
 from brax.envs import testenv2
+from brax.envs import crawler5
 
 _envs = {
     'ant': ant.Ant,
@@ -45,6 +46,7 @@ _envs = {
     'ur5e': ur5e.Ur5e,
     'testenv': testenv.SkeletonEnv,
     'testenv2': testenv2.SkeletonEnv,
+    'crawler5': crawler.SkeletonEnv,
 }
 
 State = env.State
