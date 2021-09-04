@@ -21,6 +21,8 @@ class SkeletonEnv(env.Env):
     super().__init__(config, **kwargs)
     self.target_idx = self.sys.body_idx['target']
     self.arm_idx = self.sys.body_idx['box_1']
+    
+    self.target_radius = 1.0
 
   def reset(self, rng: jnp.ndarray) -> env.State:
     qp = self.sys.default_qp()
@@ -45,7 +47,10 @@ class SkeletonEnv(env.Env):
     reward_dist = -jnp.linalg.norm(obs[-3:])
     reward_ctrl = -jnp.square(action).sum()
     reward = reward_dist + reward_ctrl
-    reward = reward_dist
+    
+    
+    target_hit = jnp.where(reward_dist < self.target_radius, 1.0, 0.0)
+    reward = reward_dist + target_hit
 
     steps = state.steps + self.action_repeat
     done = jnp.where(steps >= self.episode_length, 1.0, 0.0)
