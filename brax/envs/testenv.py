@@ -82,7 +82,7 @@ class SkeletonEnv(env.Env):
     rng, rng1, rng2 = jax.random.split(rng, 3)
     dist = .2 * jax.random.uniform(rng1)
     ang = jnp.pi * 2. * jax.random.uniform(rng2)
-    target_x = 2.0 + dist * jnp.cos(ang)
+    target_x = 4.0 + dist * jnp.cos(ang)
     target_y = dist * jnp.sin(ang)
     target_z = 0.51
     target = jnp.array([target_x, target_y, target_z]).transpose()
