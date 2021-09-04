@@ -59,6 +59,11 @@ class SkeletonEnv(env.Env):
         'rewardCtrl': reward_ctrl,
     }
 
+    rng, target = self._random_target(rng)
+    target = jnp.where(target_hit, target, qp.pos[self.target_idx])
+    pos = jax.ops.index_update(qp.pos, jax.ops.index[self.target_idx], target)
+    qp = dataclasses.replace(qp, pos=pos)
+
     return env.State(rng, qp, info, obs, reward, done, steps, metrics)
 
   def _get_obs(self, qp: brax.QP, info: brax.Info) -> jnp.ndarray:
