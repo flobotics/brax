@@ -20,7 +20,7 @@ class SkeletonEnv(env.Env):
     config = text_format.Parse(_SYSTEM_CONFIG, brax.Config())
     super().__init__(config, **kwargs)
     self.target_idx = self.sys.body_idx['target']
-    self.arm_idx = self.sys.body_idx['box_2']
+    self.arm_idx = self.sys.body_idx['box_1']
 
   def reset(self, rng: jnp.ndarray) -> env.State:
     qp = self.sys.default_qp()
