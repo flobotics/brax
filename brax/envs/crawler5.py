@@ -454,19 +454,19 @@ collide_include {
 }
 
 collide_include {
-  first: "block"
+  first: "servo_0"
   second: "body"
 }
 collide_include {
-  first: "block"
-  second: "servo_0"
-}
-collide_include {
-  first: "block"
+  first: "servo_0"
   second: "servo_1"
 }
 collide_include {
-  first: "block"
+  first: "servo_0"
+  second: "body_1"
+}
+collide_include {
+  first: "servo_1"
   second: "body_1"
 }
 
