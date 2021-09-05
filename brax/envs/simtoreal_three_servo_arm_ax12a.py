@@ -554,7 +554,7 @@ gravity {
   z: -9.81
 }
 baumgarte_erp: 0.1
-dt: 0.02
-substeps: 8
+dt: 0.015
+substeps: 24
 
 """
