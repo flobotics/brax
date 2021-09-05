@@ -373,8 +373,8 @@ joints {
   }
 
   angle_limit {
-      min: -60
-      max: 60
+      min: -90
+      max: 90
   }
 
   stiffness: 15000.0
@@ -399,8 +399,8 @@ joints {
   }
 
   angle_limit {
-      min: -60
-      max: 60
+      min: -90
+      max: 90
   }
 
   stiffness: 15000.0
