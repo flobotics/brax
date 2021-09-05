@@ -555,6 +555,6 @@ gravity {
 }
 baumgarte_erp: 0.1
 dt: 0.02
-substeps: 4
+substeps: 8
 
 """
