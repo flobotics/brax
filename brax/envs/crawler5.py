@@ -75,7 +75,7 @@ class SkeletonEnv(env.Env):
     # vector from tip to target is last 3 entries of obs vector
     reward_dist = -jnp.linalg.norm(obs[-3:])
     reward_ctrl = -jnp.square(action).sum()
-    reward = reward_dist + reward_ctrl
+    reward = -reward_dist + reward_ctrl
 
     steps = state.steps + self.action_repeat
     done = jnp.where(steps >= self.episode_length, 1.0, 0.0)
