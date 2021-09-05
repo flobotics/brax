@@ -51,31 +51,69 @@ class SkeletonEnv(env.Env):
     return env.State(rng, qp, info, obs, reward, done, steps, metrics)
 
   def step(self, state: env.State, action: jnp.ndarray) -> env.State:
+    # rng = state.rng
+    # qp, info = self.sys.step(state.qp, action)
+    # obs = self._get_obs(qp, info)
+    #
+    # qpos1 = -jnp.linalg.norm(obs[-1:])
+    # qpos2 = -jnp.linalg.norm(obs[-2:-1])
+    # reward = qpos1 - qpos2
+    #
+    # steps = state.steps + self.action_repeat
+    # done = jnp.where(steps >= self.episode_length, 1.0, 0.0)
+    # metrics = {
+    #     'rewardDist': 1.0,
+    #     'rewardCtrl': 1.0,
+    # }
+    #
+    # return env.State(rng, qp, info, obs, reward, done, steps, metrics)
+    
     rng = state.rng
     qp, info = self.sys.step(state.qp, action)
     obs = self._get_obs(qp, info)
 
-    qpos1 = -jnp.linalg.norm(obs[-1:])
-    qpos2 = -jnp.linalg.norm(obs[-2:-1])
-    reward = qpos1 - qpos2
+    # vector from tip to target is last 3 entries of obs vector
+    reward_dist = -jnp.linalg.norm(obs[-3:])
+    reward_ctrl = -jnp.square(action).sum()
+    reward = reward_dist + reward_ctrl
 
     steps = state.steps + self.action_repeat
     done = jnp.where(steps >= self.episode_length, 1.0, 0.0)
     metrics = {
-        'rewardDist': 1.0,
-        'rewardCtrl': 1.0,
+        'rewardDist': reward_dist,
+        'rewardCtrl': reward_ctrl,
     }
 
     return env.State(rng, qp, info, obs, reward, done, steps, metrics)
 
   def _get_obs(self, qp: brax.QP, info: brax.Info) -> jnp.ndarray:
+    # """Egocentric observation of target and arm body."""
+    #
+    # #return qp.pos[self.target_idx]
+    #
+    # qpos1 = [qp.pos[self.servo_idx, :1]]
+    # qpos2 = [qp.pos[self.target_idx, :1]]
+    # return jnp.concatenate(qpos1 + qpos2)
     """Egocentric observation of target and arm body."""
-    
-    #return qp.pos[self.target_idx]
-    
-    qpos1 = [qp.pos[self.servo_idx, :1]]
-    qpos2 = [qp.pos[self.target_idx, :1]]
-    return jnp.concatenate(qpos1 + qpos2)
+
+    # some pre-processing to pull joint angles and velocities
+    (joint_angle,), _ = self.sys.joint_revolute.angle_vel(qp)
+
+    # qpos:
+    # x,y coord of target
+    qpos = [qp.pos[self.target_idx, :2]]
+
+    # dist to target and speed of tip
+    arm_qps = take(qp, jnp.array(self.servo_idx))
+    tip_pos, tip_vel = math.to_world(arm_qps, jnp.array([0.01, 0., 0.]))
+    tip_to_target = [tip_pos - qp.pos[self.target_idx]]
+    cos_sin_angle = [jnp.cos(joint_angle), jnp.sin(joint_angle)]
+
+    # qvel:
+    # velocity of tip
+    qvel = [tip_vel[:2]]
+
+    return jnp.concatenate(cos_sin_angle + qpos + qvel + tip_to_target)
 
   def _random_target(self, rng: jnp.ndarray) -> Tuple[jnp.ndarray, jnp.ndarray]:
     """Returns a target location in a random circle slightly above xy plane."""
