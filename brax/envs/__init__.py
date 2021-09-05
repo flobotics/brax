@@ -33,6 +33,7 @@ from brax.envs import wrappers
 from brax.envs import testenv
 from brax.envs import testenv2
 from brax.envs import crawler5
+from brax.envs import simtoreal_three_servo_arm_ax12a
 
 _envs = {
     'ant': ant.Ant,
@@ -47,6 +48,7 @@ _envs = {
     'testenv': testenv.SkeletonEnv,
     'testenv2': testenv2.SkeletonEnv,
     'crawler5': crawler5.SkeletonEnv,
+    'simtoreal_three_servo_arm_ax12a': simtoreal_three_servo_arm_ax12a.SimToReal
 }
 
 State = env.State

@@ -437,7 +437,7 @@ bodies {
 
 joints {
   name: "joint_ground"
-  stiffness: 100.0
+  stiffness: 10000.0
   parent: "ground"
   child: "servo_1"
   parent_offset {
@@ -460,7 +460,7 @@ joints {
 
 joints {
   name: "joint_servo_1"
-  stiffness: 100.0
+  stiffness: 10000.0
   parent: "servo_1"
   child: "servo_2"
   parent_offset {
