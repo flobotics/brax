@@ -163,7 +163,7 @@ bodies {
     y: 1.0
     z: 1.0
   }
-  mass: 10.0
+  mass: 3.0
 }
 
 bodies {
