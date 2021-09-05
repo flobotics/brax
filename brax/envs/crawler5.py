@@ -76,16 +76,24 @@ class SkeletonEnv(env.Env):
     reward_dist = -jnp.linalg.norm(obs[-3:])
     reward_ctrl = -jnp.square(action).sum()
     #reward = -reward_dist + reward_ctrl
-    reward = -reward_dist
+    
+    target_hit = jnp.where(-reward_dist < 1.0, 1.0, 0.0)
+    
+    reward = -reward_dist + target_hit
 
     steps = state.steps + self.action_repeat
-    #done = jnp.where(steps >= self.episode_length, 1.0, 0.0)
-    done = jnp.where(-reward_dist <= 0.2, 1.0, 0.0)
+    done = jnp.where(steps >= self.episode_length, 1.0, 0.0)
     metrics = {
         'rewardDist': reward_dist,
         'rewardCtrl': reward_ctrl,
     }
 
+    # teleport any hit targets
+    rng, target = self._random_target(rng)
+    target = jnp.where(target_hit, target, qp.pos[self.target_idx])
+    pos = jax.ops.index_update(qp.pos, jax.ops.index[self.target_idx], target)
+    qp = dataclasses.replace(qp, pos=pos)
+    
     return env.State(rng, qp, info, obs, reward, done, steps, metrics)
 
   def _get_obs(self, qp: brax.QP, info: brax.Info) -> jnp.ndarray:
