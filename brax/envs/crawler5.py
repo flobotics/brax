@@ -434,7 +434,7 @@ joints {
 actuators {
   name: "actuator_0"
   joint: "joint_body"
-  strength: 50.0
+  strength: 150.0
   torque {
   }
 }
@@ -442,7 +442,7 @@ actuators {
 actuators {
   name: "actuator_1"
   joint: "joint_body_1"
-  strength: 50.0
+  strength: 150.0
   torque {
   }
 }
