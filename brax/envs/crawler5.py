@@ -379,7 +379,7 @@ joints {
 
   stiffness: 15000.0
   angular_damping: 35
-  spring_damping: 300.0
+  spring_damping: 30.0
 }
 
 joints {
