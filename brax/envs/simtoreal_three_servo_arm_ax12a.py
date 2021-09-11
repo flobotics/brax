@@ -232,7 +232,7 @@ bodies {
   colliders {
     position {
         z: 0.1
-        y: 0.15
+        x: -0.1
     }
     box {
       halfsize { 
