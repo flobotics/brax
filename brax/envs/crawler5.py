@@ -41,14 +41,18 @@ class SkeletonEnv(env.Env):
 
   def reset(self, rng: jnp.ndarray) -> env.State:
     qp = self.sys.default_qp()
+    _, target = self._random_target(rng)
+    pos = jax.ops.index_update(qp.pos, jax.ops.index[self.target_idx], target)
+    qp = qp.replace(pos=pos)
     info = self.sys.info(qp)
     obs = self._get_obs(qp, info)
-    reward, done, steps, zero = jnp.zeros(4)
+    reward, done, zero = jnp.zeros(3)
     metrics = {
         'rewardDist': zero,
         'rewardCtrl': zero,
     }
-    return env.State(rng, qp, info, obs, reward, done, steps, metrics)
+    
+    return env.State(qp, obs, reward, done, metrics)
 
   def step(self, state: env.State, action: jnp.ndarray) -> env.State:
     # rng = state.rng
@@ -94,7 +98,8 @@ class SkeletonEnv(env.Env):
     pos = jax.ops.index_update(qp.pos, jax.ops.index[self.target_idx], target)
     qp = dataclasses.replace(qp, pos=pos)
     
-    return env.State(rng, qp, info, obs, reward, done, steps, metrics)
+    #return env.State(rng, qp, info, obs, reward, done, steps, metrics)
+    return state.replace(qp=qp, obs=obs, reward=reward)
 
   def _get_obs(self, qp: brax.QP, info: brax.Info) -> jnp.ndarray:
     # """Egocentric observation of target and arm body."""

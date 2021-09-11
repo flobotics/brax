@@ -29,6 +29,7 @@ from brax.envs import reacher
 from brax.envs import reacherangle
 from brax.envs import ur5e
 from brax.envs import wrappers
+from brax.envs import crawler5
 from brax.envs.env import Env, State, Wrapper
 import gym
 
@@ -42,6 +43,7 @@ _envs = {
     'reacher': reacher.Reacher,
     'reacherangle': reacherangle.ReacherAngle,
     'ur5e': ur5e.Ur5e,
+    'crawler5': crawler5.SkeletonEnv
 }
 
 
