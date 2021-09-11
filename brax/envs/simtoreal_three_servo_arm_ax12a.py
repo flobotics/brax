@@ -228,6 +228,29 @@ bodies {
 }
 
 bodies {
+  name: "ball_3"
+  colliders {
+    position {
+        z: 0.1
+        y: 0.15
+    }
+    box {
+      halfsize { 
+          x: 0.02 
+          y: 0.02
+          z: 0.02
+        }
+    }
+  }
+  inertia {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+  mass: 0.01
+}
+
+bodies {
   name: "wall_0"
   colliders {
     box {
@@ -523,6 +546,19 @@ collide_include {
 collide_include {
     first: "servo_2"
     second: "ball_2"
+}
+
+collide_include {
+    first: "ground"
+    second: "ball_3"
+}
+collide_include {
+    first: "servo_1"
+    second: "ball_3"
+}
+collide_include {
+    first: "servo_2"
+    second: "ball_3"
 }
 
 collide_include {
