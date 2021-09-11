@@ -81,12 +81,12 @@ class SkeletonEnv(env.Env):
     
     reward = -reward_dist + target_hit
 
-    steps = state.steps + self.action_repeat
-    done = jnp.where(steps >= self.episode_length, 1.0, 0.0)
-    metrics = {
-        'rewardDist': reward_dist,
-        'rewardCtrl': reward_ctrl,
-    }
+    #steps = state.steps + self.action_repeat
+    #done = jnp.where(steps >= self.episode_length, 1.0, 0.0)
+    state.metrics.update(
+        rewardDist=reward_dist,
+        rewardCtrl=reward_ctrl,
+    )
 
     # teleport any hit targets
     # rng, target = self._random_target(rng)
