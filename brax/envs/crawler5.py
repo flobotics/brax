@@ -31,8 +31,7 @@ class SkeletonEnv(env.Env):
   """Trains a reacher arm to touch a sequence of random targets."""
 
   def __init__(self, **kwargs):
-    config = text_format.Parse(_SYSTEM_CONFIG, brax.Config())
-    super().__init__(config, **kwargs)
+    super().__init__(_SYSTEM_CONFIG, **kwargs)
     self.servo_idx = self.sys.body_idx['servo_1']
     self.target_idx = self.sys.body_idx['target']
 
