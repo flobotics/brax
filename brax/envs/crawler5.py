@@ -340,7 +340,7 @@ bodies {
     y: 1.0
     z: 1.0
   }
-  mass: 1.0
+  mass: 0.001
   frozen { all: true }
 }
 
