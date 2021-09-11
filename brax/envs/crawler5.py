@@ -364,7 +364,7 @@ joints {
       max: 0
   }
 
-  stiffness: 15000.0
+  stiffness: 15.0
   angular_damping: 35
 }
 
