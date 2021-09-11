@@ -68,7 +68,7 @@ class SkeletonEnv(env.Env):
     #
     # return env.State(rng, qp, info, obs, reward, done, steps, metrics)
     
-    rng = state.rng
+    # rng = state.rng
     qp, info = self.sys.step(state.qp, action)
     obs = self._get_obs(qp, info)
 
@@ -89,10 +89,10 @@ class SkeletonEnv(env.Env):
     }
 
     # teleport any hit targets
-    rng, target = self._random_target(rng)
-    target = jnp.where(target_hit, target, qp.pos[self.target_idx])
-    pos = jax.ops.index_update(qp.pos, jax.ops.index[self.target_idx], target)
-    qp = dataclasses.replace(qp, pos=pos)
+    # rng, target = self._random_target(rng)
+    # target = jnp.where(target_hit, target, qp.pos[self.target_idx])
+    # pos = jax.ops.index_update(qp.pos, jax.ops.index[self.target_idx], target)
+    # qp = dataclasses.replace(qp, pos=pos)
     
     #return env.State(rng, qp, info, obs, reward, done, steps, metrics)
     return state.replace(qp=qp, obs=obs, reward=reward)
