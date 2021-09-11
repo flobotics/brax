@@ -31,7 +31,16 @@ Explore Brax easily and quickly through a series of colab notebooks:
 
 ## Using Brax locally
 
-To install Brax from source, clone this repo, `cd` to it, and then:
+To install Brax from pypi, install it with:
+
+```
+python3 -m venv env
+source env/bin/activate
+pip install --upgrade pip
+pip install brax
+```
+
+Alternatively, to install Brax from source, clone this repo, `cd` to it, and then:
 
 ```
 python3 -m venv env
@@ -64,7 +73,7 @@ If you would like to reference Brax in a publication, please use:
   author = {C. Daniel Freeman and Erik Frey and Anton Raichuk and Sertan Girgin and Igor Mordatch and Olivier Bachem},
   title = {Brax - A Differentiable Physics Engine for Large Scale Rigid Body Simulation},
   url = {http://github.com/google/brax},
-  version = {0.0.4},
+  version = {0.0.5},
   year = {2021},
 }
 ```
