@@ -388,7 +388,7 @@ joints {
       max: 90
   }
 
-  stiffness: 150.0
+  stiffness: 15.0
   angular_damping: 35
   spring_damping: 30.0
   limit_strength: 2000.0
@@ -414,7 +414,7 @@ joints {
       max: 90
   }
 
-  stiffness: 150.0
+  stiffness: 15.0
   angular_damping: 35
   spring_damping: 30.0
   limit_strength: 2000.0
@@ -441,7 +441,7 @@ joints {
       max: 0
   }
 
-  stiffness: 150.0
+  stiffness: 15.0
   angular_damping: 35
   spring_damping: 30.0
   limit_strength: 2000.0
