@@ -174,7 +174,7 @@ bodies {
     y: 1.0
     z: 1.0
   }
-  mass: 1.0
+  mass: 0.250
 }
 
 bodies {
@@ -225,7 +225,7 @@ bodies {
     y: 1.0
     z: 1.0
   }
-  mass: 1.0
+  mass: 0.002
 }
 
 bodies {
@@ -248,7 +248,7 @@ bodies {
     y: 1.0
     z: 1.0
   }
-  mass: 1.0
+  mass: 0.054
 }
 
 bodies {
@@ -299,7 +299,7 @@ bodies {
     y: 1.0
     z: 1.0
   }
-  mass: 1.0
+  mass: 0.002
 }
 
 bodies {
@@ -322,7 +322,7 @@ bodies {
     y: 1.0
     z: 1.0
   }
-  mass: 1.0
+  mass: 0.054
 }
 
 bodies {
@@ -364,7 +364,7 @@ joints {
       max: 0
   }
 
-  stiffness: 15000.0
+  stiffness: 20000.0
   angular_damping: 35
 }
 
@@ -388,7 +388,7 @@ joints {
       max: 90
   }
 
-  stiffness: 15000.0
+  stiffness: 20000.0
   angular_damping: 35
   spring_damping: 30.0
   limit_strength: 2000.0
@@ -414,7 +414,7 @@ joints {
       max: 90
   }
 
-  stiffness: 15000.0
+  stiffness: 20000.0
   angular_damping: 35
   spring_damping: 30.0
   limit_strength: 2000.0
