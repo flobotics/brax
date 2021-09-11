@@ -95,7 +95,7 @@ class SimToReal(env.Env):
   def _random_target(self, rng: jnp.ndarray) -> Tuple[jnp.ndarray, jnp.ndarray]:
     """Returns a target location in a random circle slightly above xy plane."""
     rng, rng1, rng2 = jax.random.split(rng, 3)
-    dist = .2 * jax.random.uniform(rng1)
+    dist = .5 * jax.random.uniform(rng1)
     ang = jnp.pi * 2. * jax.random.uniform(rng2)
     target_x = dist * jnp.cos(ang)
     target_y = dist * jnp.sin(ang)
@@ -198,6 +198,25 @@ bodies {
     capsule {
       radius: 0.03
       length: 0.06
+    }
+  }
+  inertia {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+  mass: 0.01
+}
+
+bodies {
+  name: "ball_2"
+  colliders {
+    position {
+        z: 0.1
+        y: 0.15
+    }
+    sphere {
+      radius: 0.04
     }
   }
   inertia {
@@ -490,6 +509,20 @@ actuators {
   strength: 25.0
   torque {
   }
+}
+
+
+collide_include {
+    first: "ground"
+    second: "ball_2"
+}
+collide_include {
+    first: "servo_1"
+    second: "ball_2"
+}
+collide_include {
+    first: "servo_2"
+    second: "ball_2"
 }
 
 collide_include {
