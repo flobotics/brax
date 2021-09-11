@@ -19,15 +19,12 @@ Based on the OpenAI Gym MuJoCo Reacher environment.
 
 from typing import Tuple
 
-import dataclasses
-import jax
-import jax.numpy as jnp
 import brax
 from brax.envs import env
 from brax.physics import math
 from brax.physics.base import take
-
-from google.protobuf import text_format
+import jax
+import jax.numpy as jnp
 
 
 class SkeletonEnv(env.Env):
