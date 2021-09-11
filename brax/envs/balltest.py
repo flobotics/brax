@@ -104,7 +104,7 @@ bodies {
     }
   }
   inertia { x: 1.0 y: 1.0 z: 1.0 }
-  mass: 1.001
+  mass: 0.001
 }
 
 bodies {
@@ -125,8 +125,6 @@ joints {
   child: "Aux 1"
   rotation { x: 0 y: 0 z: 0 }
   angle_limit { min: -10 max: 10 }
-  stiffness: 15000.0
-  angular_damping: 35
 }
 
 actuators {
@@ -147,5 +145,5 @@ collide_include {
 }
 
 dt: 0.0167
-substeps: 30
+substeps: 10
 """
