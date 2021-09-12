@@ -364,7 +364,7 @@ joints {
       max: 0
   }
 
-  stiffness: 100.0
+  stiffness: 200.0
   angular_damping: 1
 }
 
@@ -388,7 +388,7 @@ joints {
       max: 90
   }
 
-  stiffness: 100.0
+  stiffness: 200.0
   angular_damping: 1
   spring_damping: 1.0
   limit_strength: 1.0
@@ -414,7 +414,7 @@ joints {
       max: 90
   }
 
-  stiffness: 100.0
+  stiffness: 200.0
   angular_damping: 1
   spring_damping: 1.0
   limit_strength: 1.0
@@ -441,7 +441,7 @@ joints {
       max: 0
   }
 
-  stiffness: 100.0
+  stiffness: 200.0
   angular_damping: 1
   spring_damping: 1.0
   limit_strength: 1.0
@@ -450,7 +450,7 @@ joints {
 actuators {
   name: "actuator_0"
   joint: "joint_body"
-  strength: 0.1
+  strength: 1.0
   torque {
   }
 }
@@ -458,7 +458,7 @@ actuators {
 actuators {
   name: "actuator_1"
   joint: "joint_body_1"
-  strength: 0.1
+  strength: 1.0
   torque {
   }
 }
@@ -524,6 +524,6 @@ gravity { z: -9.81 }
 angular_damping: -0.05
 
 dt: 0.015
-substeps: 48
+substeps: 24
 
 """
