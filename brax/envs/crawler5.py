@@ -364,8 +364,8 @@ joints {
       max: 0
   }
 
-  stiffness: 15.0
-  angular_damping: 35
+  stiffness: 1.0
+  angular_damping: 1
 }
 
 joints {
@@ -388,10 +388,10 @@ joints {
       max: 90
   }
 
-  stiffness: 15.0
-  angular_damping: 35
-  spring_damping: 30.0
-  limit_strength: 20.0
+  stiffness: 1.0
+  angular_damping: 1
+  spring_damping: 1.0
+  limit_strength: 1.0
 }
 
 joints {
@@ -414,10 +414,10 @@ joints {
       max: 90
   }
 
-  stiffness: 15.0
-  angular_damping: 35
-  spring_damping: 30.0
-  limit_strength: 20.0
+  stiffness: 1.0
+  angular_damping: 1
+  spring_damping: 1.0
+  limit_strength: 1.0
 }
 
 joints {
@@ -441,10 +441,10 @@ joints {
       max: 0
   }
 
-  stiffness: 15.0
-  angular_damping: 35
-  spring_damping: 30.0
-  limit_strength: 20.0
+  stiffness: 1.0
+  angular_damping: 1
+  spring_damping: 1.0
+  limit_strength: 1.0
 }
 
 actuators {
