@@ -525,7 +525,7 @@ friction: 0.6
 gravity { z: -9.81 }
 angular_damping: -0.05
 
-dt: 0.001
+dt: 0.01
 substeps: 100
 
 """
