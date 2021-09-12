@@ -364,7 +364,7 @@ joints {
       max: 0
   }
 
-  stiffness: 150.0
+  stiffness: 1500.0
   angular_damping: 1
 }
 
@@ -388,7 +388,7 @@ joints {
       max: 90
   }
 
-  stiffness: 150.0
+  stiffness: 1500.0
   angular_damping: 1
   spring_damping: 1.0
   limit_strength: 1.0
@@ -414,7 +414,7 @@ joints {
       max: 90
   }
 
-  stiffness: 150.0
+  stiffness: 1500.0
   angular_damping: 1
   spring_damping: 1.0
   limit_strength: 1.0
@@ -441,7 +441,7 @@ joints {
       max: 0
   }
 
-  stiffness: 150.0
+  stiffness: 1500.0
   angular_damping: 1
   spring_damping: 1.0
   limit_strength: 1.0
@@ -524,6 +524,6 @@ gravity { z: -9.81 }
 angular_damping: -0.05
 
 dt: 0.015
-substeps: 30
+substeps: 48
 
 """
