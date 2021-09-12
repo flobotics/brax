@@ -526,6 +526,6 @@ gravity { z: -9.81 }
 angular_damping: -0.05
 
 dt: 0.008
-substeps: 200
+substeps: 150
 
 """
