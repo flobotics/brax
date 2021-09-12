@@ -130,11 +130,11 @@ class SkeletonEnv(env.Env):
   def _random_target(self, rng: jnp.ndarray) -> Tuple[jnp.ndarray, jnp.ndarray]:
     """Returns a target location in a random circle slightly above xy plane."""
     rng, rng1, rng2 = jax.random.split(rng, 3)
-    dist = 4.2 * jax.random.uniform(rng1)
+    dist = 1.2 * jax.random.uniform(rng1)
     ang = jnp.pi * 2. * jax.random.uniform(rng2)
     target_x = dist * jnp.cos(ang)
     target_y = dist * jnp.sin(ang)
-    target_z = .01
+    target_z = .1
     target = jnp.array([target_x, target_y, target_z]).transpose()
     return rng, target
 
