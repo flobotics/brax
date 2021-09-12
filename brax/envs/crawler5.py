@@ -85,7 +85,7 @@ class SkeletonEnv(env.Env):
     #steps = state.steps + self.action_repeat
     #done = jnp.where(steps >= self.episode_length, 1.0, 0.0)
     state.metrics.update(
-        rewardDist=reward_dist,
+        rewardDist=-reward_dist,
         rewardCtrl=reward_ctrl,
     )
 
