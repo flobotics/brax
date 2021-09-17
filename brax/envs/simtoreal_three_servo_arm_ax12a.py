@@ -45,12 +45,9 @@ class SimToReal(env.Env):
     
     info = self.sys.info(qp)
     obs = self._get_obs(qp, info)
-    reward, done, zero = jnp.zeros(3)
-    metrics = {
-        'rewardDist': zero,
-        'rewardCtrl': zero,
-    }
-    return env.State(qp, obs, reward, done, metrics)
+    reward, done = jnp.zeros(2)
+
+    return env.State(qp, obs, reward, done)
 
   def step(self, state: env.State, action: jnp.ndarray) -> env.State:
 
@@ -62,13 +59,11 @@ class SimToReal(env.Env):
     reward_ctrl = -jnp.square(action).sum()
     reward = reward_dist + reward_ctrl
 
+    
+    done = jnp.where(qp.pos[0, 2] < 0.2, x=1.0, y=0.0)
+    done = jnp.where(qp.pos[0, 2] > 1.0, x=1.0, y=done)
 
-    metrics = {
-        'rewardDist': reward_dist,
-        'rewardCtrl': reward_ctrl,
-    }
-
-    return state.replace(qp=qp, obs=obs, reward=reward)
+    return state.replace(qp=qp, obs=obs, reward=reward, done=done)
 
   def _get_obs(self, qp: brax.QP, info: brax.Info) -> jnp.ndarray:
     """Egocentric observation of target and arm body."""
