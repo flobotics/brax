@@ -62,8 +62,8 @@ class SimToReal(env.Env):
 
 
 
-    done = jnp.where(qp.pos[0, 2] < 0.2, x=1.0, y=0.0)
-    done = jnp.where(qp.pos[0, 2] > 1.0, x=1.0, y=done)
+    done = jnp.where(qp.pos[0, 2] < 0.002, x=1.0, y=0.0)
+    done = jnp.where(qp.pos[0, 2] > 0.003, x=1.0, y=done)
     
     return state.replace(qp=qp, obs=obs, reward=reward, done=done)
 
