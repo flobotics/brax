@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from brax.physics import config_pb2
 from typing import AnyStr, Optional
+import brax
 
 
 
@@ -83,25 +84,55 @@ class SdfConverter(object):
     self.links = {}
     self.joints = {}
     self.config = config_pb2.Config()
+    # self.brax_config = brax.Config(dt=0.05, substeps=100)
+    #self.brax_config = config_pb2.Config()
+    
     
     sdf_str = ghum_xml
     
-    model_names = get_all_model_names(sdf_str)
-    print(f"models >{model_names}<")
-    
-    for model_name in model_names:
-        link_names = get_sdf_link_names_from_a_sdf_model(model_name, sdf_str)
-    
-    print(f"body_names of >{model_names[0]}< are >{link_names}<")
-    
-    geometry = get_sdf_geometry_from_a_sdf_model_link(model_names[0], link_names[0], sdf_str)
-    print(f"geometry of >{model_names[0]}< and >{link_names[0]}< is >{geometry}<")
-    
-    geometry = get_sdf_geometry_from_a_sdf_model_link(model_names[0], link_names[1], sdf_str)
-    print(f"geometry of >{model_names[0]}< and >{link_names[1]}< is >{geometry}<")
     
     
-    print(f"geometry >{geometry}<")
-    size = get_sdf_box_size_from_a_sdf_model_link(model_names[0], link_names[0], geometry, sdf_str)
-    print(f"{geometry} size >{size}<")
+    
+    
+    def create_bodies(sdf_str):
+    
+        model_names = get_all_model_names(sdf_str)
+        print(f"models >{model_names}<")
+        
+        
+        
+        for model_name in model_names:
+            link_names = get_sdf_link_names_from_a_sdf_model(model_name, sdf_str)
+        print(f"body_names of >{model_names[0]}< are >{link_names}<")
+        
+        i = 0
+        for link_name in link_names:
+            geometry = get_sdf_geometry_from_a_sdf_model_link(model_names[0], link_name, sdf_str)
+            print(f"geometry of >{model_names[0]}< and >{link_name}< is >{geometry}<")
+            
+            size = get_sdf_box_size_from_a_sdf_model_link(model_names[0], link_name, geometry, sdf_str)
+            print(f"{geometry} size >{size}<")
+        
+            self.config.bodies.add(name=link_name)
+            
+            if geometry == 'sphere':
+                self.config.bodies[link_name].inertia.x = 1
+            elif geometry == 'cylinder':
+                self.config.bodies[link_name].inertia.x = 1
+            elif geometry == 'box':
+                self.config.bodies[i].inertia.x = 1
+                
+            i += 1
+        
+        # geometry = get_sdf_geometry_from_a_sdf_model_link(model_names[0], link_names[1], sdf_str)
+        # print(f"geometry of >{model_names[0]}< and >{link_names[1]}< is >{geometry}<")
+        
+        
+        # print(f"geometry >{geometry}<")
+        # size = get_sdf_box_size_from_a_sdf_model_link(model_names[0], link_names[0], geometry, sdf_str)
+        # print(f"{geometry} size >{size}<")
+        
+    create_bodies(sdf_str)
+    
+    
     
