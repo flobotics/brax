@@ -69,7 +69,30 @@ def get_sdf_box_size_from_a_sdf_model_link(model_name, link_name, geometry_name,
                                         # print(f"\t\t\t\t\t{x.tag} is tag >{y.tag}< y text >{y.text}<")
                                         return y.text
                                          
-                
+           
+def get_sdf_mass_from_a_sdf_model_link(model_name, link_name, geometry_name, sdf_str):
+    for model in sdf_str.findall('model'):
+        if model.attrib.get('name') == model_name:
+            print(f"Found model >{model.attrib}<")
+            for link in model.findall('link'):
+                if link.attrib.get('name') == link_name:
+                    print(f"Found link_name >{link_name}<")
+                    for inertial in link.findall('inertial'):
+                        print(f"inertial >{inertial}<")
+                        for mass in inertial.findall('mass'):
+                            print(f"mass >{mass.text}<")
+                            return mass.text
+                    
+                    # for collision in link.findall('collision'):
+                    #     # print(f"\t\tFound collision tag >{collision.tag}< collision attrib >{collision.attrib}<")
+                    #     for geometry in collision.findall('geometry'):
+                    #         # print(f"\t\t\tFound geometry tag >{geometry}< geometry text >{geometry.attrib}<")
+                    #         for x in geometry.findall('*'):
+                    #             if x.tag == geometry_name:
+                    #                 # print(f"\t\t\t\tGeometry is tag >{x.tag}< x text >{x.attrib}<")
+                    #                 for y in x.findall('*'):
+                    #                     # print(f"\t\t\t\t\t{x.tag} is tag >{y.tag}< y text >{y.text}<")
+                    #                     return y.text     
             
 
     
@@ -112,15 +135,26 @@ class SdfConverter(object):
             
             size = get_sdf_box_size_from_a_sdf_model_link(model_names[0], link_name, geometry, sdf_str)
             print(f"{geometry} size >{size}<")
+            
+            mass = get_sdf_mass_from_a_sdf_model_link(model_names[0], link_name, geometry, sdf_str)
         
             self.config.bodies.add(name=link_name)
             
             if geometry == 'sphere':
-                self.config.bodies[link_name].inertia.x = 1
+                pass
             elif geometry == 'cylinder':
-                self.config.bodies[link_name].inertia.x = 1
+                pass
             elif geometry == 'box':
                 self.config.bodies[i].inertia.x = 1
+                self.config.bodies[i].inertia.y = 1
+                self.config.bodies[i].inertia.z = 1
+                
+                self.config.bodies[i].mass = float(mass)
+                
+                c = self.config.bodies[i].colliders.add().box
+                c.halfsize.x = 1
+                c.halfsize.y = 1
+                c.halfsize.z = 1
                 
             i += 1
         
