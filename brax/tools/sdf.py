@@ -73,29 +73,66 @@ def get_sdf_box_size_from_a_sdf_model_link(model_name, link_name, geometry_name,
 def get_sdf_mass_from_a_sdf_model_link(model_name, link_name, geometry_name, sdf_str):
     for model in sdf_str.findall('model'):
         if model.attrib.get('name') == model_name:
-            print(f"Found model >{model.attrib}<")
+            # print(f"Found model >{model.attrib}<")
             for link in model.findall('link'):
                 if link.attrib.get('name') == link_name:
-                    print(f"Found link_name >{link_name}<")
+                    # print(f"Found link_name >{link_name}<")
                     for inertial in link.findall('inertial'):
-                        print(f"inertial >{inertial}<")
+                        # print(f"inertial >{inertial}<")
                         for mass in inertial.findall('mass'):
-                            print(f"mass >{mass.text}<")
+                            # print(f"mass >{mass.text}<")
                             return mass.text
                     
-                    # for collision in link.findall('collision'):
-                    #     # print(f"\t\tFound collision tag >{collision.tag}< collision attrib >{collision.attrib}<")
-                    #     for geometry in collision.findall('geometry'):
-                    #         # print(f"\t\t\tFound geometry tag >{geometry}< geometry text >{geometry.attrib}<")
-                    #         for x in geometry.findall('*'):
-                    #             if x.tag == geometry_name:
-                    #                 # print(f"\t\t\t\tGeometry is tag >{x.tag}< x text >{x.attrib}<")
-                    #                 for y in x.findall('*'):
-                    #                     # print(f"\t\t\t\t\t{x.tag} is tag >{y.tag}< y text >{y.text}<")
-                    #                     return y.text     
             
-
+            
+def get_sdf_pose_from_a_sdf_model_link(model_name, link_name, geometry_name, sdf_str):
+    for model in sdf_str.findall('model'):
+        if model.attrib.get('name') == model_name:
+            # print(f"Found model >{model.attrib}<")
+            for link in model.findall('link'):
+                if link.attrib.get('name') == link_name:
+                    # print(f"Found link_name >{link_name}<")
+                    for pose in link.findall('pose'):
+                        # print(f"pose >{pose.text}<")
+                        return pose.text
     
+
+
+def get_sdf_joint_names_from_a_sdf_model(model_name, sdf_str):
+    joints = []
+    for model in sdf_str.findall('model'):
+        if model.attrib.get('name') == model_name:
+            # print(f"Found model >{model.attrib}<")
+            for joint in model.findall('joint'):
+                # print(f"\tFound body name >{link.attrib.get('name')}<")
+                joints.append(joint.attrib.get('name'))
+                
+    return joints
+
+
+def get_sdf_joint_parent_from_a_sdf_model(model_name, joint_name, sdf_str):
+    for model in sdf_str.findall('model'):
+        if model.attrib.get('name') == model_name:
+            # print(f"Found model >{model.attrib}<")
+            for joint in model.findall('joint'):
+                if joint.attrib.get('name') == joint_name:
+                    # print(f"\tFound body name >{link.attrib.get('name')}<")
+                    for parent in joint.findall('parent'):
+                        # print(f"\tFound parent name >{parent.text}<")
+                        return parent.text
+                    
+                    
+def get_sdf_joint_child_from_a_sdf_model(model_name, joint_name, sdf_str):
+    for model in sdf_str.findall('model'):
+        if model.attrib.get('name') == model_name:
+            # print(f"Found model >{model.attrib}<")
+            for joint in model.findall('joint'):
+                if joint.attrib.get('name') == joint_name:
+                    # print(f"\tFound body name >{link.attrib.get('name')}<")
+                    for child in joint.findall('child'):
+                        # print(f"\tFound parent name >{parent.text}<")
+                        return child.text
+
     
     
 class SdfConverter(object):
@@ -137,6 +174,8 @@ class SdfConverter(object):
             print(f"{geometry} size >{size}<")
             
             mass = get_sdf_mass_from_a_sdf_model_link(model_names[0], link_name, geometry, sdf_str)
+            
+            pose = get_sdf_pose_from_a_sdf_model_link(model_names[0], link_name, geometry, sdf_str)
         
             self.config.bodies.add(name=link_name)
             
@@ -158,15 +197,35 @@ class SdfConverter(object):
                 
             i += 1
         
-        # geometry = get_sdf_geometry_from_a_sdf_model_link(model_names[0], link_names[1], sdf_str)
-        # print(f"geometry of >{model_names[0]}< and >{link_names[1]}< is >{geometry}<")
-        
-        
-        # print(f"geometry >{geometry}<")
-        # size = get_sdf_box_size_from_a_sdf_model_link(model_names[0], link_names[0], geometry, sdf_str)
-        # print(f"{geometry} size >{size}<")
+
+    def create_joints(sdf_str):
+        model_names = get_all_model_names(sdf_str)
+        for model_name in model_names:
+            joint_names = get_sdf_joint_names_from_a_sdf_model(model_name, sdf_str)
+            print(f"joint_names >{joint_names}<")
+            
+            i = 0
+            for joint_name in joint_names:
+                self.config.joints.add(name=joint_name)
+                
+                joint_parent = get_sdf_joint_parent_from_a_sdf_model(model_name, joint_name, sdf_str)
+                self.config.joints[i].parent = joint_parent
+                print(f"joint_parent >{joint_parent}<")
+                
+            # for joint_name in joint_names:
+                joint_child = get_sdf_joint_child_from_a_sdf_model(model_name, joint_name, sdf_str)
+                self.config.joints[i].child = joint_child
+                print(f"joint_child >{joint_child}<")
+                
+                i += 1
         
     create_bodies(sdf_str)
+    
+    create_joints(sdf_str)
+    
+    
+    
+    
     
     
     
