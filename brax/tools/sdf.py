@@ -133,99 +133,116 @@ def get_sdf_joint_child_from_a_sdf_model(model_name, joint_name, sdf_str):
                         # print(f"\tFound parent name >{parent.text}<")
                         return child.text
 
+
+def get_sdf_joint_origin_from_a_sdf_model(model_name, joint_name, sdf_str):
+    for model in sdf_str.findall('model'):
+        if model.attrib.get('name') == model_name:
+            # print(f"Found model >{model.attrib}<")
+            for joint in model.findall('joint'):
+                if joint.attrib.get('name') == joint_name:
+                    print(f"\tjoint body name >{joint.attrib.get('name')}<")
+                    for origin in joint.findall('origin'):
+                        print(f"\tFound origin name >{origin.text}<")
+                        return origin.text
+                    
+                    
     
     
 class SdfConverter(object):
-  """Converts a sdf model to a Brax config."""
+    """Converts a sdf model to a Brax config."""
 
-  def __init__(self, xml_string: AnyStr, add_collision_pairs: bool = False):
-    ghum_xml = ET.fromstring(xml_string)
-    self.body_tree = {}
-    self.links = {}
-    self.joints = {}
-    self.config = config_pb2.Config()
-    # self.brax_config = brax.Config(dt=0.05, substeps=100)
-    #self.brax_config = config_pb2.Config()
-    
-    
-    sdf_str = ghum_xml
-    
-    
-    
-    
-    
-    def create_bodies(sdf_str):
-    
-        model_names = get_all_model_names(sdf_str)
-        print(f"models >{model_names}<")
+    def __init__(self, xml_string: AnyStr, add_collision_pairs: bool = False):
+        ghum_xml = ET.fromstring(xml_string)
+        self.body_tree = {}
+        self.links = {}
+        self.joints = {}
+        self.config = config_pb2.Config()
+        # self.brax_config = brax.Config(dt=0.05, substeps=100)
+        #self.brax_config = config_pb2.Config()
+        
+        
+        sdf_str = ghum_xml
         
         
         
-        for model_name in model_names:
-            link_names = get_sdf_link_names_from_a_sdf_model(model_name, sdf_str)
-        print(f"body_names of >{model_names[0]}< are >{link_names}<")
         
-        i = 0
-        for link_name in link_names:
-            geometry = get_sdf_geometry_from_a_sdf_model_link(model_names[0], link_name, sdf_str)
-            print(f"geometry of >{model_names[0]}< and >{link_name}< is >{geometry}<")
+        
+        def create_bodies(sdf_str):
+        
+            model_names = get_all_model_names(sdf_str)
+            # print(f"models >{model_names}<")
             
-            size = get_sdf_box_size_from_a_sdf_model_link(model_names[0], link_name, geometry, sdf_str)
-            print(f"{geometry} size >{size}<")
             
-            mass = get_sdf_mass_from_a_sdf_model_link(model_names[0], link_name, geometry, sdf_str)
             
-            pose = get_sdf_pose_from_a_sdf_model_link(model_names[0], link_name, geometry, sdf_str)
-        
-            self.config.bodies.add(name=link_name)
-            
-            if geometry == 'sphere':
-                pass
-            elif geometry == 'cylinder':
-                pass
-            elif geometry == 'box':
-                self.config.bodies[i].inertia.x = 1
-                self.config.bodies[i].inertia.y = 1
-                self.config.bodies[i].inertia.z = 1
-                
-                self.config.bodies[i].mass = float(mass)
-                
-                c = self.config.bodies[i].colliders.add().box
-                c.halfsize.x = 1
-                c.halfsize.y = 1
-                c.halfsize.z = 1
-                
-            i += 1
-        
-
-    def create_joints(sdf_str):
-        model_names = get_all_model_names(sdf_str)
-        for model_name in model_names:
-            joint_names = get_sdf_joint_names_from_a_sdf_model(model_name, sdf_str)
-            print(f"joint_names >{joint_names}<")
+            for model_name in model_names:
+                link_names = get_sdf_link_names_from_a_sdf_model(model_name, sdf_str)
+            # print(f"body_names of >{model_names[0]}< are >{link_names}<")
             
             i = 0
-            for joint_name in joint_names:
-                self.config.joints.add(name=joint_name)
+            for link_name in link_names:
+                geometry = get_sdf_geometry_from_a_sdf_model_link(model_names[0], link_name, sdf_str)
+                # print(f"geometry of >{model_names[0]}< and >{link_name}< is >{geometry}<")
                 
-                joint_parent = get_sdf_joint_parent_from_a_sdf_model(model_name, joint_name, sdf_str)
-                self.config.joints[i].parent = joint_parent
-                print(f"joint_parent >{joint_parent}<")
+                size = get_sdf_box_size_from_a_sdf_model_link(model_names[0], link_name, geometry, sdf_str)
+                # print(f"{geometry} size >{size}<")
                 
-            # for joint_name in joint_names:
-                joint_child = get_sdf_joint_child_from_a_sdf_model(model_name, joint_name, sdf_str)
-                self.config.joints[i].child = joint_child
-                print(f"joint_child >{joint_child}<")
+                mass = get_sdf_mass_from_a_sdf_model_link(model_names[0], link_name, geometry, sdf_str)
                 
+                pose = get_sdf_pose_from_a_sdf_model_link(model_names[0], link_name, geometry, sdf_str)
+            
+                self.config.bodies.add(name=link_name)
+                
+                if geometry == 'sphere':
+                    pass
+                elif geometry == 'cylinder':
+                    pass
+                elif geometry == 'box':
+                    self.config.bodies[i].inertia.x = 1
+                    self.config.bodies[i].inertia.y = 1
+                    self.config.bodies[i].inertia.z = 1
+                    
+                    self.config.bodies[i].mass = float(mass)
+                    
+                    c = self.config.bodies[i].colliders.add().box
+                    c.halfsize.x = 1
+                    c.halfsize.y = 1
+                    c.halfsize.z = 1
+                    
                 i += 1
+            
+    
+        def create_joints(sdf_str):
+            model_names = get_all_model_names(sdf_str)
+            for model_name in model_names:
+                joint_names = get_sdf_joint_names_from_a_sdf_model(model_name, sdf_str)
+                print(f"joint_names >{joint_names}<")
+                
+                i = 0
+                for joint_name in joint_names:
+                    self.config.joints.add(name=joint_name)
+                    
+                    joint_parent = get_sdf_joint_parent_from_a_sdf_model(model_name, joint_name, sdf_str)
+                    self.config.joints[i].parent = joint_parent
+                    print(f"joint_parent >{joint_parent}<")
+                    
+                # for joint_name in joint_names:
+                    joint_child = get_sdf_joint_child_from_a_sdf_model(model_name, joint_name, sdf_str)
+                    self.config.joints[i].child = joint_child
+                    print(f"joint_child >{joint_child}<")
+                    
+                    joint_origin = get_sdf_joint_origin_from_a_sdf_model(model_name, joint_name, sdf_str)
+                    # self.config.joints[i].child = joint_child
+                    print(f"joint_origin >{joint_origin}<")
+                    
+                    i += 1
+            
+        create_bodies(sdf_str)
         
-    create_bodies(sdf_str)
-    
-    create_joints(sdf_str)
-    
-    
-    
-    
-    
-    
-    
+        create_joints(sdf_str)
+        
+        
+        
+        
+        
+        
+        
