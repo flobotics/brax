@@ -32,9 +32,9 @@ class SimToReal(env.Env):
 
   def __init__(self, **kwargs):
     super().__init__(_SYSTEM_CONFIG, **kwargs)
-    self.target_idx = self.sys.body_idx['target']
-    self.arm_idx = self.sys.body_idx['servo_2']
-    self.ball_idx = self.sys.body_idx['ball']
+    self.target_idx = self.sys.body.index['target']
+    self.arm_idx = self.sys.body.index['servo_2']
+    self.ball_idx = self.sys.body.index['ball']
 
   def reset(self, rng: jnp.ndarray) -> env.State:
     qp = self.sys.default_qp()
@@ -71,7 +71,7 @@ class SimToReal(env.Env):
     """Egocentric observation of target and arm body."""
 
     # some pre-processing to pull joint angles and velocities
-    (joint_angle,), _ = self.sys.joint_revolute.angle_vel(qp)
+    (joint_angle,), _ = self.sys.joints[0].angle_vel(qp)
 
     # qpos:
     # x,y coord of target
