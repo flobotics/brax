@@ -30,6 +30,7 @@ from brax.envs import reacherangle
 from brax.envs import ur5e
 from brax.envs import wrappers
 from brax.envs.env import Env, State, Wrapper
+from brax.envs import sdftest
 import gym
 
 _envs = {
@@ -42,6 +43,7 @@ _envs = {
     'reacher': reacher.Reacher,
     'reacherangle': reacherangle.ReacherAngle,
     'ur5e': ur5e.Ur5e,
+    'sdftest': sdftest.Fetch,
 }
 
 

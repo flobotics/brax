@@ -140,13 +140,53 @@ def get_sdf_joint_origin_from_a_sdf_model(model_name, joint_name, sdf_str):
             # print(f"Found model >{model.attrib}<")
             for joint in model.findall('joint'):
                 if joint.attrib.get('name') == joint_name:
-                    print(f"\tjoint body name >{joint.attrib.get('name')}<")
+                    # print(f"\tjoint body name >{joint.attrib.get('name')}<")
                     for origin in joint.findall('origin'):
-                        print(f"\tFound origin name >{origin.text}<")
+                        # print(f"\tFound origin name >{origin.text}<")
                         return origin.text
                     
                     
+def get_sdf_joint_lower_limit_from_a_sdf_model(model_name, joint_name, sdf_str):
+    lower_limit = -0.0
     
+    for model in sdf_str.findall('model'):
+        if model.attrib.get('name') == model_name:
+            # print(f"Found model >{model.attrib}<")
+            for joint in model.findall('joint'):
+                if joint.attrib.get('name') == joint_name:
+                    # print(f"\tjoint body name >{joint.attrib.get('name')}<")
+                    for axis in joint.findall('axis'):
+                        # print(f"\tFound axis name >{axis.tag}<")
+                        for limit in axis.findall('limit'):
+                            # print(f"\tFound limit name >{limit.tag}<")
+                            for lower in limit.findall('lower'):
+                                # print(f"\tFound lower name >{lower.text}<")
+                                lower_limit = lower.text
+                                
+    return lower_limit
+                    
+         
+def get_sdf_joint_upper_limit_from_a_sdf_model(model_name, joint_name, sdf_str):
+    upper_limit = 0.0
+    
+    for model in sdf_str.findall('model'):
+        if model.attrib.get('name') == model_name:
+            # print(f"Found model >{model.attrib}<")
+            for joint in model.findall('joint'):
+                if joint.attrib.get('name') == joint_name:
+                    # print(f"\tjoint body name >{joint.attrib.get('name')}<")
+                    for axis in joint.findall('axis'):
+                        # print(f"\tFound axis name >{axis.tag}<")
+                        for limit in axis.findall('limit'):
+                            # print(f"\tFound limit name >{limit.tag}<")
+                            for upper in limit.findall('upper'):
+                                # print(f"\tFound upper name >{upper.text}<")
+                                upper_limit = upper.text
+                                
+    return upper_limit        
+         
+         
+                       
     
 class SdfConverter(object):
     """Converts a sdf model to a Brax config."""
@@ -233,6 +273,16 @@ class SdfConverter(object):
                     joint_origin = get_sdf_joint_origin_from_a_sdf_model(model_name, joint_name, sdf_str)
                     # self.config.joints[i].child = joint_child
                     print(f"joint_origin >{joint_origin}<")
+                    
+                    lower_limit = get_sdf_joint_lower_limit_from_a_sdf_model(model_name, joint_name, sdf_str)
+                    #del self.config.joints[i].angle_limit[:]
+                    #self.config.joints[i].angle_limit.add(min=float(lower_limit), max=float(upper_limit))
+                    print(f"lower_limit >{lower_limit}<")
+                    
+                    upper_limit = get_sdf_joint_upper_limit_from_a_sdf_model(model_name, joint_name, sdf_str)
+                    #self.config.joints[i].angle_limit.add(max=float(upper_limit))
+                    self.config.joints[i].angle_limit.add(min=float(lower_limit), max=float(upper_limit))
+                    print(f"upper_limit >{upper_limit}<")
                     
                     i += 1
             
