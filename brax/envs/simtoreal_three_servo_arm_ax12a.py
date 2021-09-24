@@ -218,8 +218,8 @@ bodies {
   name: "ball_2"
   colliders {
     position {
-        z: 0.1
-        y: 0.15
+        z: 0.2
+        x: 0.18
     }
     sphere {
       radius: 0.04
