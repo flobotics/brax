@@ -46,8 +46,13 @@ class SimToReal(env.Env):
     info = self.sys.info(qp)
     obs = self._get_obs(qp, info)
     reward, done, zero = jnp.zeros(3)
+    
+    metrics = {
+        'rewardDist': zero,
+        'rewardCtrl': zero,
+    }
 
-    return env.State(qp, obs, reward, done)
+    return env.State(qp, obs, reward, done, metrics)
 
   def step(self, state: env.State, action: jnp.ndarray) -> env.State:
 
@@ -57,15 +62,19 @@ class SimToReal(env.Env):
     # vector from tip to target is last 3 entries of obs vector
     reward_dist = -jnp.linalg.norm(obs[-3:])
     reward_ctrl = -jnp.square(action).sum()
-    reward = reward_dist + reward_ctrl
+    #reward = reward_dist + reward_ctrl
+    reward = -reward_dist
+
+    state.metrics.update(
+        rewardDist=reward_dist,
+        rewardCtrl=reward_ctrl,
+    )
 
 
-
-
-    done = jnp.where(qp.pos[0, 2] < 0.002, x=1.0, y=0.0)
-    done = jnp.where(qp.pos[0, 2] > 0.003, x=1.0, y=done)
+    # done = jnp.where(qp.pos[0, 2] < 0.002, x=1.0, y=0.0)
+    # done = jnp.where(qp.pos[0, 2] > 0.003, x=1.0, y=done)
     
-    return state.replace(qp=qp, obs=obs, reward=reward, done=done)
+    return state.replace(qp=qp, obs=obs, reward=reward)
 
   def _get_obs(self, qp: brax.QP, info: brax.Info) -> jnp.ndarray:
     """Egocentric observation of target and arm body."""
